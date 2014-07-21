@@ -11,11 +11,10 @@
     <!-- Enables Responsiveness -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Sets Favicon -->
-    <link rel="icon" type="image/png" href="/images/favicon.png" />
-
     <!-- Stylesheets -->
     <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css" />
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 
   </head>
 
@@ -24,57 +23,56 @@
     <div class="container">
       <div class="row">
         <div class="col-md-12">
-          <a href="http://www.runkite.com" target="_blank">
-            <img src="/images/logo.png" class="img-responsive" width="228" height="71" style="margin: 0 auto; margin-top: 50px; margin-bottom: 50px;">
+          <a href="http://www.usekite.com" target="_blank">
+            <img src="/images/logo.png" class="img-responsive" width="70" height="60" style="margin: 0 auto; margin-top: 50px; margin-bottom: 50px;">
           </a>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
           <div style="text-align: center;">
-            <h3>Your Node.js app is runnning!</h3>
+            <h3>GuestBook</h3>
           </div>
-          <img src="/images/nodejs.png" class="img-responsive" width="150" height="150" style="margin: 0 auto; margin-top: 20px; margin-bottom: 50px;">
-          <hr />
-        </div>
-      </div>
-      <div class="row" style="margin: 0 auto; max-width: 550px;">
-        <div class="col-md-12">
-          <h1>Next Steps:</h1>
-          <br />
-          <h3>Download Client App</h3>
-          <p class="lead">
-            We have given you a basic Node.js Express template to work on. To work on your app, please download our <a href="http://www.runkite.com/download" target="_blank">Client App</a>.
-          </p>
-          <p class="lead">
-            After installing the client app, it will sit on your status bar. You can manage your apps here.
-            <img src="/images/client_app.png" class="img-responsive" style="margin: 0 auto; margin-top: 30px; margin-bottom: 30px;">
-          </p>
-          <h3>Go To Folder</h3>
-          <p class="lead">
-            You can find your app's code by clicking on the "Folder" button. Your Kite workspace is in your Home directory, and it contains all of your apps' code.
-            <img src="/images/folder.png" class="img-responsive" style="margin: 0 auto; margin-top: 30px; margin-bottom: 30px;">
-          </p>
-          <h3>Edit Code</h3>
-          <p class="lead">
-            Now you can start coding with your favourite editor, any changes will be automatically sync'ed to your cloud development environment within seconds.
-          </p>
-          <h3>View App Running</h3>
-          <p class="lead">
-            You can click on the app icon or the row to see your app in action.
-          </p>
-          <h3>Database</h3>
-          <p class="lead">
-            Your app has SQLite database pre-installed. You may click on the "Terminal" button in the client app to SSH into your app to play around with it.
-          </p>
-          <h3>Documentation</h3>
-          <p class="lead">
-            For more instructions on how to use Express, please check out the <a href="http://expressjs.com/guide.html" target="_blank">Express Documentation</a>.
-          </p>
+          <div class="row" style="margin: 0 auto; max-width: 400px; margin-top: 2em;">
+            <div class="col-md-12">
+              <form id="form-message">
+                <div class="form-group">
+                  <div id="messages" style="margin-bottom: 2em;">
+                  </div>
+                  <div id="alert-nodb" class="alert alert-danger" style="display: none;">No Redis database is installed!</div>
+                  <input name="message" class="form-control" placeholder="Type message here...">
+                </div>
+                <input type="submit" class="btn btn-primary btn-block" value="Submit">
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
   </body>
+
+  <script>
+    $(document).ready(function () {
+      $('#form-message').submit(function () {
+        var $this = $(this);
+        $.ajax({
+          type: 'POST',
+          url: '/message',
+          data: $this.serialize(),
+          success: function (data) {
+            $this.find('input[name="message"]').val('');
+            if (data === 'Hi') {
+              $('#alert-nodb').fadeIn();
+            } else {
+              $('#alert-nodb').fadeOut();
+              $('#messages').append('<h5>' + data + '</h5>');
+            }
+          }
+        });
+        return false;
+      });
+    });
+  </script>
 
 </html>

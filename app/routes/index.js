@@ -1,8 +1,3 @@
-
-/*
- * GET home page.
- */
-
-exports.index = function(req, res){
-  res.render('index', { title: 'Hello Node.js!' });
+exports.index = function (req, res){
+  res.render('index', { title: 'GuestBook' });
 };
