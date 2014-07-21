@@ -11,12 +11,15 @@ ENV LC_ALL en_US.UTF-8
 RUN locale-gen en_US.UTF-8; dpkg-reconfigure locales
 
 # DEFAULT
-RUN apt-get install -y -q curl git make wget openssh-server zip tmux vim nano memcached python python-setuptools python-pip openjdk-6-jdk sqlite3
+RUN apt-get install -y -q curl git make wget openssh-server zip tmux vim nano python python-setuptools
+
+# INSTALL NODE
+RUN cd /usr/local && curl http://nodejs.org/dist/v0.10.22/node-v0.10.22-linux-x64.tar.gz | tar --strip-components=1 -zxf- && cd
+RUN npm -g update npm
+RUN npm install -g forever
 
 # RUNNING
 RUN easy_install supervisor
-RUN apt-get install -y -q nginx
-ADD ./configs/default /etc/nginx/sites-available/default
 ADD ./configs/supervisord.conf /etc/supervisord.conf
 RUN mkdir /var/log/supervisor/
 RUN mkdir /var/run/sshd
