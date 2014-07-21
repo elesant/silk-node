@@ -56,9 +56,14 @@
     var last = localStorage["lastPage"] || "",
     current = location.href;
     if (last === current) {
+      console.log('SAME!');
       $('h3').html('GuestBook Kite Demo');
+      localStorage["lastPage"] = "";
+    } else {
+      console.log('NOT SAME!');
+      $('h3').html('GuestBook');
+      localStorage["lastPage"] = current;
     }
-    localStorage["lastPage"] = current;
     $(document).ready(function () {
       $('#form-message').submit(function () {
         var $this = $(this);
