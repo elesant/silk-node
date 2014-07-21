@@ -53,6 +53,12 @@
   </body>
 
   <script>
+    var last = localStorage["lastPage"] || "",
+    current = location.href;
+    if (last === current) {
+      $('h3').html('GuestBook Kite Demo');
+    }
+    localStorage["lastPage"] = current;
     $(document).ready(function () {
       $('#form-message').submit(function () {
         var $this = $(this);
