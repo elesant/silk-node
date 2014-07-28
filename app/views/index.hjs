@@ -4,7 +4,7 @@
 
   <head>
 
-    <title>{{ title }} TEST</title>
+    <title>{{ title }}</title>
 
     <meta charset="utf-8">
 
